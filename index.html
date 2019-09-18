@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Styles -->
+        <style>
+            #chartdiv {
+                width: 100%;
+                height: 500px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- HTML -->
+        <div id="chartdiv"></div>
+
+         
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    
+    <!-- Chart code -->
+    <script>
+        am4core.ready(function() {
+        
+            // Themes begin
+            am4core.useTheme(am4themes_animated);
+            // Themes end
+            
+            // Create chart instance
+            var chart = am4core.create("chartdiv", am4charts.XYChart);
+            
+            // Add data
+            chart.data = [
+            {
+                "date": "2018-01",
+                "value": 2.598,
+                "open": 1.998, 
+                "close": 8.256
+            },    
+            {
+                "date": "2018-02",
+                "value": 1.899,
+                "open": 0.598, 
+                "close": 3.550
+            },
+            {
+                "date": "2018-03",
+                "value": 3.009,
+                "open": 1.998, 
+                "close": 5.999
+            },
+            {
+                "date": "2018-04",
+                "value": 2.094,
+                "open": 1.090, 
+                "close": 4.966
+            },
+            {
+                "date": "2018-05",
+                "value": 5.798,
+                "open": 2.998, 
+                "close": 8.899
+            },
+            {
+                "date": "2018-06",
+                "value": 4.099,
+                "open": 2.998, 
+                "close": 7.689
+            },
+            {
+                "date": "2018-07",
+                "value": 2.988,
+                "open": 1.094, 
+                "close": 4.256
+            },
+            {
+                "date": "2018-08",
+                "value": 6.899,
+                "open": 1.998, 
+                "close": 8.256
+            },
+            {
+                "date": "2018-09",
+                "value": 2.549,
+                "open": 1.000, 
+                "close": 9.256
+            },
+            {
+                "date": "2018-10",
+                "value": 3.999,
+                "open": 1.998, 
+                "close": 9.256
+            },
+            {
+                "date": "2018-11",
+                "value": 5.025,
+                "open": 2.998, 
+                "close": 7.256
+            },
+            {
+                "date": "2018-12",
+                "value": 4.899,
+                "open": 3.489, 
+                "close": 8.256
+            },
+            {
+                "date": "2019-01",
+                "value": 2.598,
+                "open": 1.998, 
+                "close": 5.256
+            },    
+            {
+                "date": "2019-02",
+                "value": 1.899,
+                "open": 0.298, 
+                "close": 3.256
+            },
+            {
+                "date": "2019-03",
+                "value": 3.009,
+                "open": 1.998, 
+                "close": 6.256
+            },
+            {
+                "date": "2019-04",
+                "value": 2.094,
+                "open": 1.998, 
+                "close": 4.256
+            },
+            {
+                "date": "2019-05",
+                "value": 5.798,
+                "open": 3.998, 
+                "close": 8.256
+            },
+            {
+                "date": "2019-06",
+                "value": 4.099,
+                "open": 2.059, 
+                "close": 6.256
+            },
+            {
+                "date": "2019-07",
+                "value": 2.988,
+                "open": 1.598, 
+                "close": 5.956
+            },
+            {
+                "date": "2019-08",
+                "value": 6.899,
+                "open": 2.998, 
+                "close": 7.256
+            },
+            {
+                "date": "2019-09",
+                "value": 2.549,
+                "open": 1.998, 
+                "close": 8.256
+            }
+        ];
+            
+            // Set input format for the dates
+            chart.dateFormatter.inputDateFormat = "yyyy-MMMM";
+            
+            // Create axes
+            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            
+            // Create series
+            var series = chart.series.push(new am4charts.LineSeries());
+            series.dataFields.valueY = "value";
+            series.dataFields.dateX = "date";
+            series.tooltipText = "Média: {value}";
+            series.name = "Media";
+            
+            // Drop-shaped tooltips
+            series.tooltip.background.strokeOpacity = 0;
+            series.tooltip.pointerOrientation = "vertical";
+            series.tooltip.label.minWidth = 40;
+            series.tooltip.label.minHeight = 40;
+            series.tooltip.label.textAlign = "middle";
+            series.tooltip.label.textValign = "middle";
+
+            var series1 = chart.series.push(new am4charts.LineSeries());
+            series1.dataFields.dateX = "date";
+            series1.dataFields.openValueY = "open";
+            series1.dataFields.valueY = "close";
+            series1.tooltipText = "Mínima: {openValueY.value} Máxima: {valueY.value}";
+            series1.sequencedInterpolation = true;
+            series1.fillOpacity = 0.3;
+            series1.defaultState.transitionDuration = 1000;
+            series1.name = "Faixa de Preço";
+
+            var series2 = chart.series.push(new am4charts.LineSeries());
+            series2.dataFields.dateX = "date";
+            series2.dataFields.valueY = "open";
+            series2.sequencedInterpolation = true;
+            series2.defaultState.transitionDuration = 1500;
+            series2.stroke = chart.colors.getIndex(6);
+            series2.hiddenInLegend = true;
+            
+            // Make bullets grow on hover
+            var bullet = series.bullets.push(new am4charts.CircleBullet());
+            bullet.circle.strokeWidth = 2;
+            bullet.circle.radius = 4;
+            bullet.circle.fill = am4core.color("#fff");
+
+            var bullet1 = series1.bullets.push(new am4charts.CircleBullet());
+            bullet1.circle.strokeWidth = 2;
+            bullet1.circle.radius = 4;
+            bullet1.circle.fill = am4core.color("#fff");
+            
+            var bullet2 = series2.bullets.push(new am4charts.CircleBullet());
+            bullet2.circle.strokeWidth = 2;
+            bullet2.circle.radius = 4;
+            bullet2.circle.fill = am4core.color("#fff");
+
+            chart.legend = new am4charts.Legend();
+
+            // Make a panning cursor
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.behavior = "panXY";
+            chart.cursor.xAxis = dateAxis;
+            chart.cursor.snapToSeries = series;
+            
+            // Create vertical scrollbar and place it before the value axis
+            chart.scrollbarY = new am4core.Scrollbar();
+            chart.scrollbarY.parent = chart.leftAxesContainer;
+            
+            // Create a horizontal scrollbar with previe and place it underneath the date axis
+            chart.scrollbarX = new am4core.Scrollbar();
+            chart.scrollbarX.parent = chart.bottomAxesContainer;
+        
+        }); // end am4core.ready()
+    </script>
+    </body>
+</html>
+    
+    
